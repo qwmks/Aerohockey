@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val fm: FragmentManager = supportFragmentManager
         setContentView(R.layout.activity_main)
+        //test
 //        auth = FirebaseAuth.getInstance()
 //        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestIdToken(getResources().getString(R.string.web_id))
