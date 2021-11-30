@@ -8,6 +8,9 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -25,30 +28,36 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        auth = FirebaseAuth.getInstance()
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getResources().getString(R.string.web_id))
-                .requestEmail()
-                .build()
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
+        val fm: FragmentManager = supportFragmentManager
+        setContentView(R.layout.activity_main)
+//        auth = FirebaseAuth.getInstance()
+//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getResources().getString(R.string.web_id))
+//                .requestEmail()
+//                .build()
+//        setContentView(R.layout.activity_main)
+//        googleSignInClient = GoogleSignIn.getClient(this, gso)
 //        signOut = findViewById(R.id.sign_out)
 //        signOut.setOnClickListener {
 //            auth.signOut()
-//            startActivity(Intent(this, SigninActivity::class.java))
+//            googleSignInClient.signOut()
+//            findNavController().navigate(R.id.action_global_signinFragment)
+        }
+
+
+
+//    }
+//    override fun onStart() {
+//        super.onStart()
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        val currentUser: FirebaseUser? = auth.getCurrentUser()
+//        updateUI(currentUser)
+//    }
+//    private fun updateUI(user: FirebaseUser?) {
+//        text = findViewById(R.id.welcomeText)
+//        if (user != null) {
+//            text.setText(user.displayName)
 //        }
-
-
-        setContentView(R.layout.activity_main)
-    }
-    override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser: FirebaseUser? = auth.getCurrentUser()
-        updateUI(currentUser)
-    }
-    private fun updateUI(user: FirebaseUser?) {
-        text = findViewById(R.id.welcomeText)
-        text.setText("login complete")
-    }
+//    }
 }
 
