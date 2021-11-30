@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "72593459883",
+    "project_id": "aerohockey-iron",
+    "storage_bucket": "aerohockey-iron.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72593459883:android:d0667148fcf6bb0eccc5ee",
+        "android_client_info": {
+          "package_name": "com.example.aerohockey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72593459883-132v5hf2vk86d647votc89o1e7mhp8k3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDROdlyeK4ksj8IfTC1-T_FQhPOob0lywU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72593459883-132v5hf2vk86d647votc89o1e7mhp8k3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
