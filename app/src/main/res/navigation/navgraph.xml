@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_signinFragment"
             app:destination="@id/signinFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_gameActivity"
+            app:destination="@id/gameActivity" />
     </fragment>
     <fragment
         android:id="@+id/signinFragment"
@@ -22,5 +25,15 @@
         <action
             android:id="@+id/action_signinFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
-    </fragment><action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment"/><action android:id="@+id/action_global_signinFragment" app:destination="@id/signinFragment"/>
+        <argument
+            android:name="Name"
+            app:argType="string" />
+    </fragment>
+    <action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment" />
+    <action android:id="@+id/action_global_signinFragment" app:destination="@id/signinFragment" />
+    <activity
+        android:id="@+id/gameActivity"
+        android:name="com.example.aerohockey.GameActivity"
+        android:label="activity_game"
+        tools:layout="@layout/activity_game" />
 </navigation>

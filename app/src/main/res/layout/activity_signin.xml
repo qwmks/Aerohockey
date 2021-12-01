@@ -40,14 +40,4 @@
         app:layout_constraintStart_toStartOf="@+id/registerMailBut"
         app:layout_constraintTop_toBottomOf="@+id/registerMailBut" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="146dp"
-        android:layout_marginTop="51dp"
-        android:text="This is activity"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,6 +33,7 @@ class HomeFragment : Fragment() {
     private lateinit var googleSignInClient: GoogleSignInClient
     lateinit var text: TextView
     lateinit var signOut: Button
+    lateinit var playBut: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,6 +54,10 @@ class HomeFragment : Fragment() {
         signOut = view.findViewById(R.id.sign_out)!!
         if (auth.currentUser ==null){
             findNavController().navigate(R.id.action_global_signinFragment)
+        }
+        playBut = view.findViewById(R.id.butPlay)
+        playBut.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_gameActivity)
         }
         signOut.setOnClickListener {
             auth.signOut()
