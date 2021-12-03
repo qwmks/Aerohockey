@@ -7,8 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -16,7 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -33,7 +34,13 @@ class SigninFragment : Fragment() {
     private var mSignInClient: GoogleSignInClient? = null
     // Firebase instance variables
     private var mFirebaseAuth: FirebaseAuth? = null
-    lateinit var signinButton: SignInButton
+    lateinit var GoogleSignInBut: SignInButton
+    lateinit var emailSignInBut: Button
+    lateinit var emailRegBut: Button
+    lateinit var passwordEditText: EditText
+    lateinit var emailEditText: EditText
+    lateinit var passwordLayout: TextInputLayout
+    lateinit var emailLayout: TextInputLayout
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -49,14 +56,29 @@ class SigninFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        signinButton = view.findViewById(R.id.sign_in_button)
-        signinButton.setOnClickListener { view -> signInGoogle() }
+        GoogleSignInBut = view.findViewById(R.id.sign_in_button)
+        GoogleSignInBut.setOnClickListener { view -> signInGoogle() }
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         mSignInClient = getActivity()?.let { GoogleSignIn.getClient(it, gso) }
         mFirebaseAuth = FirebaseAuth.getInstance()
+        emailSignInBut = view.findViewById(R.id.signinMailBut)
+        emailRegBut = view.findViewById(R.id.registerMailBut)
+        passwordLayout = view.findViewById(R.id.passwordLayout)
+        emailLayout = view.findViewById(R.id.emailLayout)
+        passwordEditText = view.findViewById(R.id.passwordEditText)
+        emailEditText = view.findViewById(R.id.emailEditText)
+        emailSignInBut.setOnClickListener {
+            signInWithEmail(emailEditText.text.toString(),passwordEditText.text.toString())
+        }
+        emailRegBut.setOnClickListener {
+            val action = SigninFragmentDirections.actionSigninFragmentToRegistrationFragment(emailEditText.text.toString(),passwordEditText.text.toString())
+            findNavController().navigate(action)
+            }
+
+
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,34 +109,44 @@ class SigninFragment : Fragment() {
 
     private fun createAccount(email: String, password: String) {
         // [START create_user_with_email]
-        getActivity()?.let {
+
+        activity?.let {
             mFirebaseAuth?.createUserWithEmailAndPassword(email, password)
                 ?.addOnCompleteListener(it) { task ->
+                    var flag:String = "false"
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success")
                         val user = mFirebaseAuth?.currentUser
+
                         updateUI(user)
+                        flag = "true"
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
                         Toast.makeText(this.context, "Authentication failed.",
                             Toast.LENGTH_SHORT).show()
                         updateUI(null)
+                        flag = "true"
                     }
+
                 }
         }
         // [END create_user_with_email]
+
     }
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount?) {
         val credential = GoogleAuthProvider.getCredential(acct!!.idToken, null)
-        getActivity()?.let {
-            getActivity()?.let { it1 ->
+        activity?.let {
+            activity?.let { it1 ->
                 mFirebaseAuth!!.signInWithCredential(credential)
                     .addOnSuccessListener(it) { authResult: AuthResult? ->
-                        findNavController().navigate(R.id.action_global_homeFragment)
+
                         Log.d(TAG, "signInWithGoogle:success")
+                        mFirebaseAuth!!.currentUser?.email?.let { it2 -> DBHelper.checkExist(it2,::onGoogleSignIn) }
+
                         Toast.makeText(this.context, "Going to home", Toast.LENGTH_LONG).show()
+                        findNavController().navigate(R.id.action_global_homeFragment)
                         //                finish()
                     }
                     .addOnFailureListener(it1) { e: Exception? ->
@@ -124,9 +156,14 @@ class SigninFragment : Fragment() {
             }
         }
     }
+    private fun onGoogleSignIn(res:Boolean){
+        if (!res){
+            mFirebaseAuth!!.currentUser?.email?.let { it1 -> DBHelper.addUser(it1) }
+        }
+    }
     private fun signInWithEmail(email: String, password: String) {
         // [START sign_in_with_email]
-        getActivity()?.let {
+        activity?.let {
             mFirebaseAuth?.signInWithEmailAndPassword(email, password)
                 ?.addOnCompleteListener(it) { task ->
                     if (task.isSuccessful) {
