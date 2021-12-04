@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +23,8 @@ class GameFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var gameView: GameView? = null
+    var isPaused = true
+    lateinit var pauseButton: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gameView = GameView(activity,null)
@@ -41,6 +45,17 @@ class GameFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pauseButton = view.findViewById(R.id.pauseButton)
+        pauseButton.setOnClickListener {
+            if (isPaused)
+                gameView?.pause()
+            else{
+                gameView?.resume()
+            }
+            isPaused=!isPaused
+        }
+        val layout: ConstraintLayout = view.findViewById(R.id.frameLayout)
+        layout.addView(gameView)
     }
     companion object {
         /**

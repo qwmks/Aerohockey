@@ -1,13 +1,15 @@
 package com.example.aerohockey
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.navigation.findNavController
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -34,6 +36,10 @@ class HomeFragment : Fragment() {
     lateinit var text: TextView
     lateinit var signOut: Button
     lateinit var playBut: Button
+    lateinit var addMoneyBut: Button
+    lateinit var moneyTextView: TextView
+    lateinit var pucksTextView: TextView
+    lateinit var strikerChange:Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -64,6 +70,36 @@ class HomeFragment : Fragment() {
             googleSignInClient.signOut()
             findNavController().navigate(R.id.action_global_signinFragment)
         }
+        DBHelper.getSettings(auth.currentUser?.email,::waitTillLoad)
+
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+
+
+        pucksTextView = view.findViewById(R.id.Pucks)
+//        var puckString:String = ""
+//        Settings.unlockedPucks.forEach{
+//            puckString + it.toString()
+//        }
+        pucksTextView.text=Settings.striker.toString()
+        addMoneyBut = view.findViewById(R.id.addMoneyButton)
+        addMoneyBut.setOnClickListener {
+            Log.d("Current money",Settings.money.value.toString())
+            DBHelper.addMoney(auth.currentUser?.email, 100 )
+        }
+        strikerChange = view.findViewById(R.id.strikerChange)
+        strikerChange.setOnClickListener {
+            if (Settings.striker==0)
+                Settings.striker=1
+            else
+                Settings.striker=0
+//            Toast.makeText(this.context,Settings.striker.toString(),Toast.LENGTH_SHORT).show()
+        }
+
+    }
+    private fun waitTillLoad(result:Boolean){
+        if (result){
+            Toast.makeText(this.context,"All loaded",Toast.LENGTH_LONG).show()
+        }
     }
     override fun onStart() {
         super.onStart()
@@ -82,7 +118,15 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val i = inflater.inflate(R.layout.fragment_home, container, false)
+        moneyTextView = i.findViewById(R.id.money)
+        moneyTextView.text=Settings.money.toString()
+        val moneyObserver = Observer<Int> { newValue ->
+            // Update the UI, in this case, a TextView. {
+            moneyTextView.text = newValue.toString()
+        }
+        Settings.money.observe(viewLifecycleOwner, moneyObserver)
+        return i
     }
 
     companion object {

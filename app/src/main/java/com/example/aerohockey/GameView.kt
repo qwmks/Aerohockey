@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 
 
 public class  GameView(context: Context?, attributeSet: AttributeSet?) : SurfaceView(context),
@@ -21,7 +23,7 @@ public class  GameView(context: Context?, attributeSet: AttributeSet?) : Surface
     private var score:Int = 0
     private var drawThread: DrawThread? = null
     override fun surfaceCreated(holder: SurfaceHolder) {
-        drawThread = DrawThread(context, getHolder())
+        drawThread = DrawThread(context, getHolder(),Settings.field,Settings.striker,Settings.puck)
         drawThread!!.start()
     }
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {}
@@ -37,10 +39,16 @@ public class  GameView(context: Context?, attributeSet: AttributeSet?) : Surface
             }
         }
     }
-
     override fun onTouchEvent(event: MotionEvent): Boolean {
         drawThread!!.setStrikerPoint(event.x.toInt(), event.y.toInt())
         return false
+    }
+
+    fun pause() {
+        drawThread?.requestStop()
+    }
+    fun resume(){
+        drawThread?.requestStart()
     }
     init {
         holder.addCallback(this)
