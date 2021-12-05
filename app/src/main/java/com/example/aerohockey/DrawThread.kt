@@ -23,7 +23,7 @@ class DrawThread(context: Context, surfaceHolder: SurfaceHolder, private val fie
     private lateinit var  striker1: Bitmap
     private lateinit var  strikerEnemy: Bitmap
 //    private val enemyStriker: Bitmap
-    private val puck: Bitmap
+    private val puck: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.smile)
     private val goal: Bitmap
     private val towardPointX = 0
     private val towardPointY = 0
@@ -184,7 +184,6 @@ class DrawThread(context: Context, surfaceHolder: SurfaceHolder, private val fie
     }
 
     init {
-        puck = BitmapFactory.decodeResource(context.resources, R.drawable.smile)
         striker0 = BitmapFactory.decodeResource(contextIn.resources, R.drawable.striker0)
         striker1 = BitmapFactory.decodeResource(contextIn.resources, R.drawable.striker1)
 //        enemyStriker = BitmapFactory.decodeResource(context.resources, R.drawable.striker)

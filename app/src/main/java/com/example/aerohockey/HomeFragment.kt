@@ -35,6 +35,7 @@ class HomeFragment : Fragment() {
     private lateinit var googleSignInClient: GoogleSignInClient
     lateinit var text: TextView
     lateinit var signOut: Button
+    lateinit var settingsBut: Button
     lateinit var playBut: Button
     lateinit var addMoneyBut: Button
     lateinit var moneyTextView: TextView
@@ -76,15 +77,20 @@ class HomeFragment : Fragment() {
 
 
         pucksTextView = view.findViewById(R.id.Pucks)
-//        var puckString:String = ""
-//        Settings.unlockedPucks.forEach{
-//            puckString + it.toString()
-//        }
-        pucksTextView.text=Settings.striker.toString()
+        var puckString:String = ""
+        Settings.unlockedPucks.forEach{
+            "$puckString $it"
+        }
+        pucksTextView.text = Settings.unlockedPucks.toString()
+//        pucksTextView.text=Settings.field.toString()
         addMoneyBut = view.findViewById(R.id.addMoneyButton)
         addMoneyBut.setOnClickListener {
             Log.d("Current money",Settings.money.value.toString())
             DBHelper.addMoney(auth.currentUser?.email, 100 )
+        }
+        settingsBut = view.findViewById(R.id.settingsBut)
+        settingsBut.setOnClickListener {
+//            findNavController().navigate(R.id.action_homeFragment_to_settingsActivity)
         }
         strikerChange = view.findViewById(R.id.strikerChange)
         strikerChange.setOnClickListener {

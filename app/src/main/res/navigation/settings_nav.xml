@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_nav"
+    app:startDestination="@id/fields1">
+
+    <fragment
+        android:id="@+id/fields1"
+        android:name="com.example.aerohockey.settings.fieldsFragment"
+        android:label="fieldsFragment" />
+    <fragment
+        android:id="@+id/strikers2"
+        android:name="com.example.aerohockey.settings.StrikersFragment"
+        android:label="StrikersFragment" />
+    <fragment
+        android:id="@+id/pucks3"
+        android:name="com.example.aerohockey.settings.PucksFragment"
+        android:label="fragment_pucks"
+        tools:layout="@layout/fragment_pucks" />
+    <fragment
+        android:id="@+id/user4"
+        android:name="com.example.aerohockey.settings.userFragment"
+        android:label="userFragment" />
+</navigation>

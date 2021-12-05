@@ -79,4 +79,14 @@
         app:layout_constraintBottom_toTopOf="@+id/welcomeText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/Pucks" />
+
+    <Button
+        android:id="@+id/settingsBut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="41dp"
+        android:text="Settings"
+        app:layout_constraintStart_toStartOf="@+id/butPlay"
+        app:layout_constraintTop_toTopOf="@+id/butPlay" />
 </androidx.constraintlayout.widget.ConstraintLayout>

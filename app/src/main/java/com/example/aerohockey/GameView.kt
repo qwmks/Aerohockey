@@ -50,9 +50,9 @@ public class  GameView(context: Context?, attributeSet: AttributeSet?) : Surface
     fun resume(){
         drawThread?.requestStart()
     }
-    init {
-        holder.addCallback(this)
-    }
+//    init {
+//        holder.addCallback(this)
+//    }
 //    fun returnScore(score:Int){
 //        val intent = Intent(getActivity(this.context), MainActivity::class.java)
 //    }
