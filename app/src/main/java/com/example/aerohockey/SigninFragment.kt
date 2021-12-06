@@ -73,8 +73,9 @@ class SigninFragment : Fragment() {
         emailSignInBut.setOnClickListener {
             signInWithEmail(emailEditText.text.toString(),passwordEditText.text.toString())
         }
+//        ,
         emailRegBut.setOnClickListener {
-            val action = SigninFragmentDirections.actionSigninFragmentToRegistrationFragment(emailEditText.text.toString(),passwordEditText.text.toString())
+            val action = SigninFragmentDirections.actionSigninFragmentToRegistrationFragment(passwordEditText.text.toString(),emailEditText.text.toString())
             findNavController().navigate(action)
             }
 
@@ -185,7 +186,7 @@ class SigninFragment : Fragment() {
     private fun updateUI(user: FirebaseUser?) {
 
     }
-    //    private fun sendEmailVerification() {
+        private fun sendEmailVerification() {
 //        // [START send_email_verification]
 //        val user = mFirebaseAuth.currentUser!!
 //        user.sendEmailVerification()
@@ -193,7 +194,7 @@ class SigninFragment : Fragment() {
 //                    // Email Verification sent
 //                }
 //        // [END send_email_verification]
-//    }
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

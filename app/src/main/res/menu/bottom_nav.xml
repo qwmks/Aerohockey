@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fieldsFragment"
+        android:title="@string/fields"
+        android:icon="@drawable/field_ico"/>
+    <item
+        android:id="@+id/pucksFragment"
+        android:title="@string/pucks"
+        android:icon="@drawable/puck_ico"/>
+    <item
+        android:id="@+id/strikersFragment"
+        android:title="@string/strikers"
+        android:icon="@drawable/striker_ico"/>
+    <item
+        android:id="@+id/userFragment"
+        android:title="@string/user"
+        android:icon="@drawable/user_ico"/>
+</menu>

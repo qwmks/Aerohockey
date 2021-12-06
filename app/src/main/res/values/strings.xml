@@ -20,4 +20,6 @@
     <string name="user">User</string>
     <string name="title_activity_settings">MainActivity</string>
     <string name="title_activity_btm_nav">MainActivity</string>
+    <string name="title_activity_text">MainActivity</string>
+    <string name="back">Return to main menu</string>
 </resources>

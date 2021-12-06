@@ -90,7 +90,7 @@ class HomeFragment : Fragment() {
         }
         settingsBut = view.findViewById(R.id.settingsBut)
         settingsBut.setOnClickListener {
-//            findNavController().navigate(R.id.action_homeFragment_to_settingsActivity)
+            findNavController().navigate(R.id.action_homeFragment_to_settingsActivity)
         }
         strikerChange = view.findViewById(R.id.strikerChange)
         strikerChange.setOnClickListener {
@@ -98,7 +98,6 @@ class HomeFragment : Fragment() {
                 Settings.striker=1
             else
                 Settings.striker=0
-//            Toast.makeText(this.context,Settings.striker.toString(),Toast.LENGTH_SHORT).show()
         }
 
     }

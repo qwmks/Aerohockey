@@ -84,6 +84,7 @@ class GameView2(context: Context,field:Int,puck:Int,striker:Int): SurfaceView(co
     }
 
     fun stop(){
+        running=false
         try {
             gameThread.join()
         } catch (e: InterruptedException){

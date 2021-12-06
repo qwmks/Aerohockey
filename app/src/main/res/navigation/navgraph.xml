@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_gameActivity"
             app:destination="@id/gameActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsActivity"
+            app:destination="@id/settingsActivity" />
     </fragment>
     <fragment
         android:id="@+id/signinFragment"
@@ -54,4 +57,9 @@
             android:id="@+id/action_registrationFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="com.example.aerohockey.SettingsActivity"
+        android:label="activity_settings"
+        tools:layout="@layout/activity_settings" />
 </navigation>

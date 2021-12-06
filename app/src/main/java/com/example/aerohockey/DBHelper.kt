@@ -27,9 +27,9 @@ object DBHelper {
                 "field" to 0,
                 "striker" to 0,
                 "puck" to 0,
-                "availFields" to Settings.unlockedFields,
-                "availPucks" to Settings.unlockedPucks,
-                "availStrikers" to Settings.unlockedStrikers
+                "availFields" to listOf<Int>(0),
+                "availPucks" to listOf<Int>(0),
+                "availStrikers" to listOf<Int>(0)
         )
         db.collection("users").document(email)
                 .set(userData)

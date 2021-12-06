@@ -3,23 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settings_nav"
-    app:startDestination="@id/fields1">
-
+    app:startDestination="@id/fieldsFragment">
     <fragment
-        android:id="@+id/fields1"
+        android:id="@+id/fieldsFragment"
         android:name="com.example.aerohockey.settings.fieldsFragment"
-        android:label="fieldsFragment" />
+        android:label="fragment_fields"
+        tools:layout="@layout/fragment_fields" />
     <fragment
-        android:id="@+id/strikers2"
-        android:name="com.example.aerohockey.settings.StrikersFragment"
-        android:label="StrikersFragment" />
-    <fragment
-        android:id="@+id/pucks3"
+        android:id="@+id/pucksFragment"
         android:name="com.example.aerohockey.settings.PucksFragment"
         android:label="fragment_pucks"
         tools:layout="@layout/fragment_pucks" />
     <fragment
-        android:id="@+id/user4"
+        android:id="@+id/userFragment"
         android:name="com.example.aerohockey.settings.userFragment"
-        android:label="userFragment" />
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/strikersFragment"
+        android:name="com.example.aerohockey.settings.StrikersFragment"
+        android:label="fragment_strikers"
+        tools:layout="@layout/fragment_strikers" />
 </navigation>

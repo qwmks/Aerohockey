@@ -51,9 +51,9 @@ class GameFragment : Fragment() {
         pauseButton = view.findViewById(R.id.pauseButton)
         pauseButton.setOnClickListener {
             if (isPaused)
-                gameView?.pause()
+                gameView?.stop()
             else{
-                gameView?.resume()
+                gameView?.start()
             }
             isPaused=!isPaused
         }
