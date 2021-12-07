@@ -36,10 +36,12 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
     private var ticks = 0
 
     private fun setupRes() {
-        if(currField==0){
-            backgroundPaint.color = Color.BLUE
-        }else {
-            backgroundPaint.color = Color.GREEN
+        when(currField){
+            0->backgroundPaint.color = Color.BLUE
+            1->backgroundPaint.color = Color.GREEN
+            2->backgroundPaint.color = Color.RED
+            3->backgroundPaint.color = Color.WHITE
+            else ->backgroundPaint.color = Color.BLUE
         }
         backgroundPaint.style = Paint.Style.FILL
         if(backgroundPaint.color!= Color.RED) scored.color = Color.RED
@@ -241,7 +243,7 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
                     }
                     //top
                     if (RectF(puckX.toFloat(), puckY.toFloat(), (puckX+puck.width).toFloat(), (puckY+puck.height).toFloat()).intersect(
-                                    RectF(enemyX.toFloat(), (enemyY).toFloat(), (enemyX+enemyStriker.width).toFloat(), (enemyY+ abs(vecY)).toFloat()
+                                    RectF((enemyX+ abs(vecX)).toFloat(), (enemyY).toFloat(), (enemyX+enemyStriker.width- abs(vecX)).toFloat(), (enemyY+ abs(vecY)).toFloat()
                                     ))){
                         puckY=enemyY- abs(vecY)-puck.height
                         collisionHandling(false)

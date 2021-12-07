@@ -22,4 +22,13 @@
     <string name="title_activity_btm_nav">MainActivity</string>
     <string name="title_activity_text">MainActivity</string>
     <string name="back">Return to main menu</string>
+    <string name="no_money">Not enough money</string>
+    <string name="select_first">Select first</string>
+    <string name="select_second">select second</string>
+    <string name="buy_first">Buy first</string>
+    <string name="select_third">Select third</string>
+    <string name="buy_second">Buy second</string>
+    <string name="buy_third">Buy third</string>
+    <string name="select_default">Select default</string>
+    <string name="curr_selected">Currently selected</string>
 </resources>

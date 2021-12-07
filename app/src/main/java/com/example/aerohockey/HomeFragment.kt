@@ -40,7 +40,6 @@ class HomeFragment : Fragment() {
     lateinit var addMoneyBut: Button
     lateinit var moneyTextView: TextView
     lateinit var pucksTextView: TextView
-    lateinit var strikerChange:Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -91,13 +90,6 @@ class HomeFragment : Fragment() {
         settingsBut = view.findViewById(R.id.settingsBut)
         settingsBut.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_settingsActivity)
-        }
-        strikerChange = view.findViewById(R.id.strikerChange)
-        strikerChange.setOnClickListener {
-            if (Settings.striker==0)
-                Settings.striker=1
-            else
-                Settings.striker=0
         }
 
     }

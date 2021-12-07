@@ -69,18 +69,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/strikerChange"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="87dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="85dp"
-        android:text="Change striker"
-        app:layout_constraintBottom_toTopOf="@+id/welcomeText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Pucks" />
-
-    <Button
         android:id="@+id/settingsBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

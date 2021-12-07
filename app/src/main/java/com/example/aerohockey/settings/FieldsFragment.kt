@@ -1,5 +1,6 @@
 package com.example.aerohockey.settings
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import com.example.aerohockey.DBHelper
 import com.example.aerohockey.Prices
 import com.example.aerohockey.R
 import com.example.aerohockey.Settings
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,7 +31,7 @@ class fieldsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var auth=FirebaseAuth.getInstance()
-
+    private var butsEnabled:MutableList<Boolean> = mutableListOf(false,true,true,true)
     lateinit var selectFirstButton: Button
     lateinit var selectSecondButton: Button
     lateinit var selectThirdButton: Button
@@ -46,7 +49,7 @@ class fieldsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var email =auth.currentUser?.email.toString()
+        val email =auth.currentUser?.email.toString()
         selectFirstButton = view.findViewById(R.id.selectFirstField)
         selectSecondButton = view.findViewById(R.id.selectSecondField)
         selectThirdButton = view.findViewById(R.id.selectThirdField)
@@ -55,10 +58,10 @@ class fieldsFragment : Fragment() {
         buySecondButton=view.findViewById(R.id.buySecondField)
         buyThirdButton=view.findViewById(R.id.buyThirdField)
         when(Settings.field){
-            0->selectDefaultButton.visibility=View.GONE
-            1->selectFirstButton.visibility=View.GONE
-            2->selectSecondButton.visibility=View.GONE
-            3->selectThirdButton.visibility=View.GONE
+            0->selectDefaultButton.text=getString(R.string.curr_selected)
+            1->selectFirstButton.text=getString(R.string.curr_selected)
+            2->selectSecondButton.text=getString(R.string.curr_selected)
+            3->selectThirdButton.text=getString(R.string.curr_selected)
         }
         selectDefaultButton.setOnClickListener {
             Settings.field=0
@@ -80,18 +83,27 @@ class fieldsFragment : Fragment() {
             DBHelper.saveSettings(email)
             hideButton(selectThirdButton)
         }
-        if ((Settings.unlockedFields.any{ it == 1 }) or (Prices.fieldPrices[1]> Settings.money.value!!)){
-            buyFirstButton.visibility=View.GONE
-        }
-        if ((Settings.unlockedFields.any{ it == 2 }) or (Prices.fieldPrices[2]> Settings.money.value!!)){
-            buySecondButton.visibility=View.GONE
-        }
-        if ((Settings.unlockedFields.any{ it == 3 }) or (Prices.fieldPrices[3]> Settings.money.value!!)){
-            buyThirdButton.visibility=View.GONE
-        }
+        checkButtons()
         buyFirstButton.setOnClickListener {
-            DBHelper.makePurchase(email,Prices.fieldPrices[1],1,1)
-            buyFirstButton.visibility=View.GONE
+                if (butsEnabled[1]) {
+                    DBHelper.makePurchase(email, Prices.fieldPrices[1], 1, 1)
+                } else
+                    Snackbar.make(view,R.string.no_money,Snackbar.LENGTH_LONG).show()
+            checkButtons()
+        }
+        buySecondButton.setOnClickListener {
+            if (butsEnabled[1]) {
+                DBHelper.makePurchase(email, Prices.fieldPrices[2], 1, 2)
+            } else
+                Snackbar.make(view,R.string.no_money,Snackbar.LENGTH_LONG).show()
+            checkButtons()
+        }
+        buyThirdButton.setOnClickListener {
+            if (butsEnabled[1]) {
+                DBHelper.makePurchase(email, Prices.fieldPrices[3], 1, 3)
+            } else
+                Snackbar.make(view,R.string.no_money,Snackbar.LENGTH_LONG).show()
+            checkButtons()
         }
         Log.d("Settings.unlockedFields",Settings.unlockedFields.toString())
 //        Log.d("Settings.unlockedFields[1]", Settings.unlockedFields[1].toString())
@@ -100,12 +112,52 @@ class fieldsFragment : Fragment() {
         Log.d("Contains 1",Settings.unlockedFields.contains(1).toString())
         Log.d("using any",Settings.unlockedFields.any{ it == 1 }.toString())
     }
+    fun checkButtons(){
+        if (!(Settings.unlockedFields.any{ it == 1 })){
+            selectFirstButton.visibility=View.GONE
+        }
+        if (!(Settings.unlockedFields.any{ it == 2 })){
+            selectSecondButton.visibility=View.GONE
+        }
+        if (!(Settings.unlockedFields.any{ it == 3 })){
+            selectThirdButton.visibility=View.GONE
+        }
+        if ((Settings.unlockedFields.any{ it == 1 }) ){
+            buyFirstButton.visibility=View.GONE
+        }
+        else if (Prices.fieldPrices[1]> Settings.money.value!!){
+            buyFirstButton.setTextColor(Color.RED)
+            butsEnabled[1]=false
+        }
+        if ((Settings.unlockedFields.any{ it == 2 })){
+            buySecondButton.visibility=View.GONE
+        }
+        else if (Prices.fieldPrices[2]> Settings.money.value!!){
+            buySecondButton.setTextColor(Color.RED)
+            butsEnabled[2]=false
+        }
+        if ((Settings.unlockedFields.any{ it == 3 }) ){
+            buyThirdButton.visibility=View.GONE
+        }
+        else if (Prices.fieldPrices[3]> Settings.money.value!!){
+            buyThirdButton.setTextColor(Color.RED)
+            butsEnabled[3]=false
+        }
+    }
     fun hideButton(button:Button){
         selectDefaultButton.visibility=View.VISIBLE
-        selectFirstButton.visibility=View.VISIBLE
-        selectSecondButton.visibility=View.VISIBLE
-        selectThirdButton.visibility=View.VISIBLE
-        button.visibility=View.GONE
+        if (Settings.unlockedFields.any{ it == 1 })
+            selectFirstButton.visibility=View.VISIBLE
+        if (Settings.unlockedFields.any{ it == 2 })
+            selectSecondButton.visibility=View.VISIBLE
+        if (Settings.unlockedFields.any{ it == 3 })
+            selectThirdButton.visibility=View.VISIBLE
+//        button.visibility=View.GONE
+        selectDefaultButton.text= getString(R.string.select_default)
+        selectFirstButton.text= getString(R.string.select_first)
+        selectSecondButton.text= getString(R.string.select_second)
+        selectThirdButton.text= getString(R.string.select_third)
+        button.text=getString(R.string.curr_selected)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

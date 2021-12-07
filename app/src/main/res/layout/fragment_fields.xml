@@ -9,79 +9,66 @@
 
     <Button
         android:id="@+id/selectFirstField"
-        android:layout_width="0dp"
+        android:layout_width="409dp"
         android:layout_height="57dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="144dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="146dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/buySecondField"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="244dp"
+        android:text="@string/select_first"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/selectDefaultField" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/selectSecondField"
-        android:layout_width="0dp"
+        android:layout_width="411dp"
         android:layout_height="49dp"
-        android:layout_marginTop="53dp"
-        android:layout_marginBottom="55dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/textView7"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="444dp"
+        android:text="@string/select_second"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buySecondField" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buyFirstField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="174dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="174dp"
-        android:text="Buy first"
-        app:layout_constraintBottom_toBottomOf="@+id/textView6"
-        app:layout_constraintEnd_toEndOf="@+id/selectFirstField"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_marginStart="296dp"
+        android:layout_marginTop="168dp"
+        android:text="@string/buy_first"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buySecondField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="79dp"
-        android:text="Buy second"
-        app:layout_constraintBottom_toTopOf="@+id/buyThirdField"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginStart="276dp"
+        android:layout_marginTop="376dp"
+        android:text="@string/buy_second"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/selectThirdField"
-        android:layout_width="0dp"
+        android:layout_width="411dp"
         android:layout_height="63dp"
-        android:layout_marginBottom="105dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="552dp"
+        android:text="@string/select_third"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buyThirdField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="11dp"
-        android:text="Buy third"
-        app:layout_constraintBottom_toTopOf="@+id/selectThirdField"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginStart="296dp"
+        android:layout_marginTop="512dp"
+        android:text="@string/buy_third"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="28dp"
         android:text="Blue field"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -91,40 +78,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginBottom="34dp"
+        android:layout_marginTop="376dp"
         android:text="Red field"
-        app:layout_constraintBottom_toTopOf="@+id/selectSecondField"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="29dp"
-        android:layout_marginBottom="29dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="512dp"
         android:text="White field"
-        app:layout_constraintBottom_toTopOf="@+id/selectThirdField"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/selectDefaultField"
-        android:layout_width="0dp"
+        android:layout_width="411dp"
         android:layout_height="49dp"
-        android:layout_marginTop="51dp"
-        android:layout_marginBottom="47dp"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/buyFirstField"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="84dp"
+        android:text="@string/select_default"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginTop="168dp"
         android:text="greenfield"
-        app:layout_constraintBottom_toTopOf="@+id/selectFirstField"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

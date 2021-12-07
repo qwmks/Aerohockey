@@ -24,4 +24,10 @@
         android:name="com.example.aerohockey.settings.StrikersFragment"
         android:label="fragment_strikers"
         tools:layout="@layout/fragment_strikers" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.aerohockey.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <action android:id="@+id/action_global_mainactivity" app:destination="@id/mainActivity"/>
 </navigation>
