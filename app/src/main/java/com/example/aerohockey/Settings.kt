@@ -10,7 +10,7 @@ object Settings {
     val money:MutableLiveData<Int>by lazy {
         MutableLiveData<Int>(0)
     }
-    var unlockedFields:List<Int> = listOf(0)
-    var unlockedStrikers:List<Int> =listOf(0)
-    var unlockedPucks:List<Int> =listOf(0)
+    var unlockedFields:MutableList<Int> = mutableListOf(0)
+    var unlockedStrikers:MutableList<Int> = mutableListOf(0)
+    var unlockedPucks:MutableList<Int> = mutableListOf(0)
 }

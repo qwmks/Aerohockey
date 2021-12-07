@@ -81,7 +81,7 @@ class HomeFragment : Fragment() {
         Settings.unlockedPucks.forEach{
             "$puckString $it"
         }
-        pucksTextView.text = Settings.unlockedPucks.toString()
+        pucksTextView.text = Settings.unlockedFields.toString()
 //        pucksTextView.text=Settings.field.toString()
         addMoneyBut = view.findViewById(R.id.addMoneyButton)
         addMoneyBut.setOnClickListener {
