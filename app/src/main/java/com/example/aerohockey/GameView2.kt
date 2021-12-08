@@ -5,7 +5,11 @@ import android.graphics.*
 import android.view.MotionEvent
 import android.view.SurfaceView
 import androidx.core.graphics.scale
-import kotlinx.coroutines.delay
+import androidx.navigation.findNavController
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceView(context), Runnable {
@@ -28,12 +32,15 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
     private val goal: Bitmap =BitmapFactory.decodeResource(context.resources, R.drawable.goal)
     private var strikerX = 0
     private var strikerY = 0
-    private var enemyX = 0
-    private var enemyY = 0
-    private var vecX = 0
-    private var vecY = 0
+    private var enemyX = 400
+    private var enemyY = 30
+    private var vecX = 3
+    private var vecY = 4
     private var score = 0
     private var ticks = 0
+    private var puckX = 0
+    private var puckY = 0
+    val finalScore = 1
 
     private fun setupRes() {
         when(currField){
@@ -85,18 +92,15 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
 //        }
         return false
     }
-    private fun endGame(){
+    @DelicateCoroutinesApi
+    private fun endGame() {
 //        stop()
-//        findNavController().navigate(R.id.action_gameFragment_to_gameOverFragment)
-    }
-
-    fun stop(){
-        running=false
-        try {
-            gameThread.join()
-        } catch (e: InterruptedException){
+        GlobalScope.launch(Dispatchers.Main) {
+            findNavController().navigate(R.id.action_gameFragment_to_gameOverFragment)
         }
     }
+
+
 
 
     override fun run() {
@@ -121,18 +125,16 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
 //        }
 //        else striker = striker0
         setupRes()
-        var puckX = 0
-        enemyX = 400
-        enemyY = 0
-        var puckY = 0
+
+
+
         var delay = 0
-        vecX = 3
-        vecY = 4
         val speed = 30
         var init = true
         var enemyChasing = true
         while (running) {
-            if (score>2)
+
+            if (score>=finalScore)
                 endGame()
             val canvas = holder.lockCanvas()
             if(init)
@@ -271,8 +273,15 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
     fun resume() {
 
     }
-
+    fun stop(){
+        running=false
+        try {
+            gameThread.join()
+        } catch (e: InterruptedException){
+        }
+    }
     fun start() {
+        running=true
         gameThread = Thread(this)
         gameThread.start()
     }

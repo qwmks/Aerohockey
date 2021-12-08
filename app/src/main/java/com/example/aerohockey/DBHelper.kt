@@ -32,7 +32,7 @@ object DBHelper {
         )
         db.collection("users").document(email).set(userData)
     }
-    fun makePurchase(email: String,cost:Int,type:Int,id:Int){
+    fun makePurchase(email: String,cost:Int,type:Int,id:Int, callback: (Boolean) -> Unit){
         val db = Firebase.firestore
         Settings.money.value = Settings.money.value?.minus(cost)
         when(type){
@@ -49,7 +49,12 @@ object DBHelper {
                 "availPucks" to Settings.unlockedPucks,
                 "availStrikers" to Settings.unlockedStrikers
         )
-        db.collection("users").document(email).set(userData)
+        db.collection("users").document(email).set(userData).addOnSuccessListener {
+            callback(true)
+        }
+                .addOnFailureListener {
+                    callback(false)
+                }
     }
     fun addUser(email: String) {
         val db = Firebase.firestore
@@ -114,8 +119,12 @@ object DBHelper {
                     Settings.unlockedStrikers = (res.get("availStrikers") as List<Int>).toMutableList()
                     Log.d(TAG,res.get("availPucks").toString())
                     Log.d("Result is", Settings.unlockedPucks.toString())
+                    callback(true)
                 }
             }
+                    .addOnFailureListener {
+                        callback(false)
+                    }
         }
     }
 }

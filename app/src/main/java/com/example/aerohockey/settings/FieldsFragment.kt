@@ -8,11 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import com.example.aerohockey.DBHelper
 import com.example.aerohockey.Prices
 import com.example.aerohockey.R
 import com.example.aerohockey.Settings
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
@@ -39,6 +39,7 @@ class fieldsFragment : Fragment() {
     lateinit var buyFirstButton: Button
     lateinit var buySecondButton: Button
     lateinit var buyThirdButton: Button
+    lateinit var loadingCircle:CircularProgressIndicator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -57,6 +58,8 @@ class fieldsFragment : Fragment() {
         buyFirstButton=view.findViewById(R.id.buyFirstField)
         buySecondButton=view.findViewById(R.id.buySecondField)
         buyThirdButton=view.findViewById(R.id.buyThirdField)
+        loadingCircle = view.findViewById(R.id.loadingCircleField)
+
         when(Settings.field){
             0->selectDefaultButton.text=getString(R.string.curr_selected)
             1->selectFirstButton.text=getString(R.string.curr_selected)
@@ -83,27 +86,36 @@ class fieldsFragment : Fragment() {
             DBHelper.saveSettings(email)
             hideButton(selectThirdButton)
         }
-        checkButtons()
+        checkButtons(true)
         buyFirstButton.setOnClickListener {
                 if (butsEnabled[1]) {
-                    DBHelper.makePurchase(email, Prices.fieldPrices[1], 1, 1)
+                    loadingCircle.visibility=View.VISIBLE
+                    DBHelper.makePurchase(email, Prices.fieldPrices[1], 1, 1){
+                        res->checkButtons(res)
+                    }
                 } else
                     Snackbar.make(view,R.string.no_money,Snackbar.LENGTH_LONG).show()
-            checkButtons()
+//            checkButtons()
         }
         buySecondButton.setOnClickListener {
             if (butsEnabled[1]) {
-                DBHelper.makePurchase(email, Prices.fieldPrices[2], 1, 2)
+                loadingCircle.visibility=View.VISIBLE
+                DBHelper.makePurchase(email, Prices.fieldPrices[2], 1, 2){
+                    res->checkButtons(res)
+                }
             } else
                 Snackbar.make(view,R.string.no_money,Snackbar.LENGTH_LONG).show()
-            checkButtons()
+//            checkButtons(true)
         }
         buyThirdButton.setOnClickListener {
             if (butsEnabled[1]) {
-                DBHelper.makePurchase(email, Prices.fieldPrices[3], 1, 3)
+                loadingCircle.visibility=View.VISIBLE
+                DBHelper.makePurchase(email, Prices.fieldPrices[3], 1, 3){
+                    res->checkButtons(res)
+                }
             } else
                 Snackbar.make(view,R.string.no_money,Snackbar.LENGTH_LONG).show()
-            checkButtons()
+//            checkButtons()
         }
         Log.d("Settings.unlockedFields",Settings.unlockedFields.toString())
 //        Log.d("Settings.unlockedFields[1]", Settings.unlockedFields[1].toString())
@@ -112,37 +124,45 @@ class fieldsFragment : Fragment() {
         Log.d("Contains 1",Settings.unlockedFields.contains(1).toString())
         Log.d("using any",Settings.unlockedFields.any{ it == 1 }.toString())
     }
-    fun checkButtons(){
-        if (!(Settings.unlockedFields.any{ it == 1 })){
-            selectFirstButton.visibility=View.GONE
-        }
-        if (!(Settings.unlockedFields.any{ it == 2 })){
-            selectSecondButton.visibility=View.GONE
-        }
-        if (!(Settings.unlockedFields.any{ it == 3 })){
-            selectThirdButton.visibility=View.GONE
-        }
-        if ((Settings.unlockedFields.any{ it == 1 }) ){
-            buyFirstButton.visibility=View.GONE
-        }
-        else if (Prices.fieldPrices[1]> Settings.money.value!!){
-            buyFirstButton.setTextColor(Color.RED)
-            butsEnabled[1]=false
-        }
-        if ((Settings.unlockedFields.any{ it == 2 })){
-            buySecondButton.visibility=View.GONE
-        }
-        else if (Prices.fieldPrices[2]> Settings.money.value!!){
-            buySecondButton.setTextColor(Color.RED)
-            butsEnabled[2]=false
-        }
-        if ((Settings.unlockedFields.any{ it == 3 }) ){
-            buyThirdButton.visibility=View.GONE
-        }
-        else if (Prices.fieldPrices[3]> Settings.money.value!!){
-            buyThirdButton.setTextColor(Color.RED)
-            butsEnabled[3]=false
-        }
+    private fun checkButtons(res:Boolean){
+        if (res) {
+            Log.d("Post-transaction",Settings.unlockedFields.toString())
+            if (!(Settings.unlockedFields.any { it == 1 })) {
+                selectFirstButton.visibility = View.GONE
+            }
+            if (!(Settings.unlockedFields.any { it == 2 })) {
+                selectSecondButton.visibility = View.GONE
+            }
+            if (!(Settings.unlockedFields.any { it == 3 })) {
+                selectThirdButton.visibility = View.GONE
+            }
+            if ((Settings.unlockedFields.any { it == 1 })) {
+                buyFirstButton.visibility = View.GONE
+            } else if (Prices.fieldPrices[1] > Settings.money.value!!) {
+                buyFirstButton.setTextColor(Color.RED)
+                butsEnabled[1] = false
+            }
+            if ((Settings.unlockedFields.any { it == 2 })) {
+                buySecondButton.visibility = View.GONE
+            } else if (Prices.fieldPrices[2] > Settings.money.value!!) {
+                buySecondButton.setTextColor(Color.RED)
+                butsEnabled[2] = false
+            }
+            if (Settings.unlockedFields.any{ it == 1 })
+                selectFirstButton.visibility=View.VISIBLE
+            if (Settings.unlockedFields.any{ it == 2 })
+                selectSecondButton.visibility=View.VISIBLE
+            if (Settings.unlockedFields.any{ it == 3 })
+                selectThirdButton.visibility=View.VISIBLE
+            if ((Settings.unlockedFields.any { it == 3 })) {
+                buyThirdButton.visibility = View.GONE
+            } else if (Prices.fieldPrices[3] > Settings.money.value!!) {
+                buyThirdButton.setTextColor(Color.RED)
+                butsEnabled[3] = false
+            }
+            loadingCircle.visibility=View.GONE
+        } else view?.let { Snackbar.make(it,R.string.no_money,Snackbar.LENGTH_LONG).show()
+            loadingCircle.visibility=View.GONE}
     }
     fun hideButton(button:Button){
         selectDefaultButton.visibility=View.VISIBLE

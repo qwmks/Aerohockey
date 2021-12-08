@@ -31,4 +31,5 @@
     <string name="buy_third">Buy third</string>
     <string name="select_default">Select default</string>
     <string name="curr_selected">Currently selected</string>
+    <string name="transaction_failed">Transaction failed</string>
 </resources>

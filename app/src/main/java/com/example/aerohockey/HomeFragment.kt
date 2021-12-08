@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -40,6 +41,7 @@ class HomeFragment : Fragment() {
     lateinit var addMoneyBut: Button
     lateinit var moneyTextView: TextView
     lateinit var pucksTextView: TextView
+    lateinit var loadingCircleHome :CircularProgressIndicator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,14 +59,21 @@ class HomeFragment : Fragment() {
             .requestEmail()
             .build()
         googleSignInClient = requireActivity().let { GoogleSignIn.getClient(it, gso) }
+        settingsBut = view.findViewById(R.id.settingsBut)
         signOut = view.findViewById(R.id.sign_out)!!
+        playBut = view.findViewById(R.id.butPlay)
+        loadingCircleHome=view.findViewById(R.id.loadingCircleHome)
         if (auth.currentUser ==null){
             findNavController().navigate(R.id.action_global_signinFragment)
         }
-        playBut = view.findViewById(R.id.butPlay)
+
         playBut.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_gameActivity)
         }
+
+        loadingCircleHome.visibility=View.VISIBLE
+        playBut.visibility=View.GONE
+        settingsBut.visibility=View.GONE
         signOut.setOnClickListener {
             auth.signOut()
             googleSignInClient.signOut()
@@ -87,7 +96,7 @@ class HomeFragment : Fragment() {
             Log.d("Current money",Settings.money.value.toString())
             DBHelper.addMoney(auth.currentUser?.email, 100 )
         }
-        settingsBut = view.findViewById(R.id.settingsBut)
+
         settingsBut.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_settingsActivity)
         }
@@ -95,13 +104,17 @@ class HomeFragment : Fragment() {
     }
     private fun waitTillLoad(result:Boolean){
         if (result){
-            Toast.makeText(this.context,"All loaded",Toast.LENGTH_LONG).show()
+            loadingCircleHome.visibility=View.GONE
+            playBut.visibility=View.VISIBLE
+            settingsBut.visibility=View.VISIBLE
         }
+        else
+            Toast.makeText(this.context,"Error loading settings",Toast.LENGTH_LONG).show()
     }
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser: FirebaseUser? = auth.getCurrentUser()
+        val currentUser: FirebaseUser? = auth.currentUser
         updateUI(currentUser)
     }
     private fun updateUI(user: FirebaseUser?) {
