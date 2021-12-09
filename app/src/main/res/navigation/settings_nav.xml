@@ -18,7 +18,11 @@
         android:id="@+id/userFragment"
         android:name="com.example.aerohockey.settings.userFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
     <fragment
         android:id="@+id/strikersFragment"
         android:name="com.example.aerohockey.settings.StrikersFragment"

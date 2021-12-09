@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.delay
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -94,12 +95,15 @@ class HomeFragment : Fragment() {
         addMoneyBut = view.findViewById(R.id.addMoneyButton)
         addMoneyBut.setOnClickListener {
             Log.d("Current money",Settings.money.value.toString())
-            DBHelper.addMoney(auth.currentUser?.email, 100 )
+            DBHelper.addMoney(auth.currentUser?.email, 100 ,::delay)
         }
 
         settingsBut.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_settingsActivity)
         }
+
+    }
+    private fun delay(res:Boolean){
 
     }
     private fun waitTillLoad(result:Boolean){
@@ -120,7 +124,7 @@ class HomeFragment : Fragment() {
     private fun updateUI(user: FirebaseUser?) {
         text = view?.findViewById(R.id.welcomeText)!!
         if (user != null) {
-            text.setText(user.displayName)
+            text.text = user.displayName
         }
     }
     override fun onCreateView(

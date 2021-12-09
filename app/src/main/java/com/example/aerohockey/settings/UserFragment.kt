@@ -5,7 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.aerohockey.R
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,6 +30,11 @@ private const val ARG_PARAM2 = "param2"
  */
 class userFragment : Fragment() {
     // TODO: Rename and change types of parameters
+    lateinit var userName : TextView
+    lateinit var signOut:Button
+    lateinit var updateName:Button
+    private lateinit var auth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
     private var param1: String? = null
     private var param2: String? = null
 
@@ -29,6 +45,37 @@ class userFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        auth= FirebaseAuth.getInstance()
+        super.onViewCreated(view, savedInstanceState)
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(resources.getString(R.string.web_id))
+                .requestEmail()
+                .build()
+        googleSignInClient = requireActivity().let { GoogleSignIn.getClient(it, gso) }
+        userName=view.findViewById(R.id.nameEditText)
+        signOut = view.findViewById(R.id.signOut)
+        updateName = view.findViewById(R.id.updateName)
+        userName.text=auth.currentUser?.displayName
+        signOut.setOnClickListener {
+            auth.signOut()
+            googleSignInClient.signOut()
+            findNavController().navigate(R.id.action_userFragment_to_mainActivity)
+        }
+        updateName.setOnClickListener {
+            val profileUpdates = UserProfileChangeRequest.Builder()
+                    .setDisplayName(userName.text.toString())
+                    .build()
+            auth.currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener {task->
+                if(task.isSuccessful){
+                    Toast.makeText(this.context,"Complete!",Toast.LENGTH_LONG).show();
+                }else
+                    Toast.makeText(this.context,"Name update Failed, try again",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

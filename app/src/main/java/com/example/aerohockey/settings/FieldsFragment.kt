@@ -27,11 +27,10 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class fieldsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private var auth=FirebaseAuth.getInstance()
-    private var butsEnabled:MutableList<Boolean> = mutableListOf(false,true,true,true)
+    private var butsEnabled:MutableList<Boolean> = mutableListOf(true,true,true,true)
     lateinit var selectFirstButton: Button
     lateinit var selectSecondButton: Button
     lateinit var selectThirdButton: Button
@@ -98,7 +97,7 @@ class fieldsFragment : Fragment() {
 //            checkButtons()
         }
         buySecondButton.setOnClickListener {
-            if (butsEnabled[1]) {
+            if (butsEnabled[2]) {
                 loadingCircle.visibility=View.VISIBLE
                 DBHelper.makePurchase(email, Prices.fieldPrices[2], 1, 2){
                     res->checkButtons(res)
@@ -108,7 +107,7 @@ class fieldsFragment : Fragment() {
 //            checkButtons(true)
         }
         buyThirdButton.setOnClickListener {
-            if (butsEnabled[1]) {
+            if (butsEnabled[3]) {
                 loadingCircle.visibility=View.VISIBLE
                 DBHelper.makePurchase(email, Prices.fieldPrices[3], 1, 3){
                     res->checkButtons(res)
@@ -117,12 +116,12 @@ class fieldsFragment : Fragment() {
                 Snackbar.make(view,R.string.no_money,Snackbar.LENGTH_LONG).show()
 //            checkButtons()
         }
-        Log.d("Settings.unlockedFields",Settings.unlockedFields.toString())
-//        Log.d("Settings.unlockedFields[1]", Settings.unlockedFields[1].toString())
-        Log.d("1 in ",(1 in Settings.unlockedFields).toString())
-        Log.d("one in ",(1 in Settings.unlockedFields).toString())
-        Log.d("Contains 1",Settings.unlockedFields.contains(1).toString())
-        Log.d("using any",Settings.unlockedFields.any{ it == 1 }.toString())
+//        Log.d("Settings.unlockedFields",Settings.unlockedFields.toString())
+////        Log.d("Settings.unlockedFields[1]", Settings.unlockedFields[1].toString())
+//        Log.d("1 in ",(1 in Settings.unlockedFields).toString())
+//        Log.d("one in ",(1 in Settings.unlockedFields).toString())
+//        Log.d("Contains 1",Settings.unlockedFields.contains(1).toString())
+//        Log.d("using any",Settings.unlockedFields.any{ it == 1 }.toString())
     }
     private fun checkButtons(res:Boolean){
         if (res) {
@@ -138,15 +137,30 @@ class fieldsFragment : Fragment() {
             }
             if ((Settings.unlockedFields.any { it == 1 })) {
                 buyFirstButton.visibility = View.GONE
-            } else if (Prices.fieldPrices[1] > Settings.money.value!!) {
-                buyFirstButton.setTextColor(Color.RED)
-                butsEnabled[1] = false
+            } else {
+                buyFirstButton.text=getString(R.string.buy)+Prices.fieldPrices[1].toString()
+                if (Prices.fieldPrices[1] > Settings.money.value!!) {
+                    buyFirstButton.setTextColor(Color.RED)
+                    butsEnabled[1] = false
+                }
             }
             if ((Settings.unlockedFields.any { it == 2 })) {
                 buySecondButton.visibility = View.GONE
-            } else if (Prices.fieldPrices[2] > Settings.money.value!!) {
-                buySecondButton.setTextColor(Color.RED)
-                butsEnabled[2] = false
+            } else {
+                buySecondButton.text=getString(R.string.buy)+Prices.fieldPrices[2].toString()
+                if (Prices.fieldPrices[2] > Settings.money.value!!) {
+                    buySecondButton.setTextColor(Color.RED)
+                    butsEnabled[2] = false
+                }
+            }
+            if ((Settings.unlockedFields.any { it == 3 })) {
+                buyThirdButton.visibility = View.GONE
+            } else {
+                buyThirdButton.text=getString(R.string.buy)+Prices.fieldPrices[3].toString()
+                if (Prices.fieldPrices[3] > Settings.money.value!!) {
+                    buyThirdButton.setTextColor(Color.RED)
+                    butsEnabled[3] = false
+                }
             }
             if (Settings.unlockedFields.any{ it == 1 })
                 selectFirstButton.visibility=View.VISIBLE
@@ -154,12 +168,6 @@ class fieldsFragment : Fragment() {
                 selectSecondButton.visibility=View.VISIBLE
             if (Settings.unlockedFields.any{ it == 3 })
                 selectThirdButton.visibility=View.VISIBLE
-            if ((Settings.unlockedFields.any { it == 3 })) {
-                buyThirdButton.visibility = View.GONE
-            } else if (Prices.fieldPrices[3] > Settings.money.value!!) {
-                buyThirdButton.setTextColor(Color.RED)
-                butsEnabled[3] = false
-            }
             loadingCircle.visibility=View.GONE
         } else view?.let { Snackbar.make(it,R.string.no_money,Snackbar.LENGTH_LONG).show()
             loadingCircle.visibility=View.GONE}

@@ -36,7 +36,7 @@ object DBHelper {
         val db = Firebase.firestore
         Settings.money.value = Settings.money.value?.minus(cost)
         when(type){
-            1-> Settings.unlockedFields.plusAssign(id)
+            1->Settings.unlockedFields.plusAssign(id)
             2->Settings.unlockedPucks.plusAssign(id)
             3->Settings.unlockedStrikers.plusAssign(id)
         }
@@ -76,7 +76,7 @@ object DBHelper {
                     Log.w(TAG, "Error adding document", e)
                 }
     }
-    fun addMoney(email: String?, coins: Int){
+    fun addMoney(email: String?, coins: Int, callback: (Boolean) -> Unit){
         val db = Firebase.firestore
         var  money = Settings.money.value
         money = money?.plus(coins)
@@ -92,7 +92,12 @@ object DBHelper {
                 "availStrikers" to Settings.unlockedStrikers
         )
         if (email != null) {
-            db.collection("users").document(email).set(userData)
+            db.collection("users").document(email).set(userData).addOnSuccessListener {
+                callback(true)
+            }
+                    .addOnFailureListener {
+                        callback(false)
+                    }
         }
     }
     fun getSettings(email: String?, callback: (Boolean) -> Unit){

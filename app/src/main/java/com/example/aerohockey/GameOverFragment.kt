@@ -5,6 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.google.firebase.auth.FirebaseAuth
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,8 +24,10 @@ private const val ARG_PARAM2 = "param2"
 class GameOverFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
+    private val  email= FirebaseAuth.getInstance().currentUser?.email
     private var param2: String? = null
-
+    lateinit var goToHome: Button
+    lateinit var scoreView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -29,6 +36,21 @@ class GameOverFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val args: GameOverFragmentArgs by navArgs()
+        goToHome = view.findViewById(R.id.goToHome)
+        scoreView = view.findViewById(R.id.scoreView)
+        scoreView.text= args.score.toString()
+        goToHome.visibility=View.GONE
+        DBHelper.addMoney(email,args.score*100,::delay)
+        goToHome.setOnClickListener {
+            findNavController().navigate(R.id.action_gameOverFragment_to_mainActivity2)
+        }
+    }
+    private fun delay(res:Boolean){
+        goToHome.visibility=View.VISIBLE
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

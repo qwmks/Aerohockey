@@ -1,13 +1,16 @@
 package com.example.aerohockey
 
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,11 +27,13 @@ class GameFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var gameView: GameView2? = null
+    lateinit var stopEnemy:Button
     var isPaused = true
+    var enIsPlaying = true
     lateinit var pauseButton: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gameView = activity?.let { GameView2(it,Settings.field,Settings.puck,Settings.striker) }
+        gameView = activity?.let { GameView2(it, Settings.field, Settings.puck, Settings.striker) }
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -36,8 +41,8 @@ class GameFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         // Inflate the layout for this fragment
@@ -47,6 +52,9 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val layout: ConstraintLayout = view.findViewById(R.id.frameLayout)
+        stopEnemy=view.findViewById(R.id.stopEnemy)
+        //test
+
         layout.addView(gameView)
         pauseButton = view.findViewById(R.id.pauseButton)
         pauseButton.setOnClickListener {
@@ -57,7 +65,15 @@ class GameFragment : Fragment() {
             }
             isPaused=!isPaused
         }
+        stopEnemy.setOnClickListener {
 
+            if (enIsPlaying)
+                gameView?.stopEnemy()
+            else{
+                gameView?.startEnemy()
+            }
+            enIsPlaying=!enIsPlaying
+        }
     }
 
     override fun onResume() {

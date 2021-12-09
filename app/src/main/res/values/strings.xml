@@ -24,12 +24,16 @@
     <string name="back">Return to main menu</string>
     <string name="no_money">Not enough money</string>
     <string name="select_first">Select first</string>
-    <string name="select_second">select second</string>
-    <string name="buy_first">Buy first</string>
+    <string name="select_second">Select second</string>
+    <string name="buy_first">Buy first </string>
     <string name="select_third">Select third</string>
     <string name="buy_second">Buy second</string>
     <string name="buy_third">Buy third</string>
     <string name="select_default">Select default</string>
     <string name="curr_selected">Currently selected</string>
     <string name="transaction_failed">Transaction failed</string>
+    <string name="buy">Buy: $</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="enter_your_new_name">Enter your new name</string>
 </resources>

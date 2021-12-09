@@ -25,10 +25,17 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
     private lateinit var  striker: Bitmap
     private val  striker0: Bitmap =BitmapFactory.decodeResource(context.resources, R.drawable.striker0)
     private val  striker1: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.striker1)
+    private val  striker2: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.striker2)
+    private val  striker3: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.striker3)
 //
     private var enemyStriker:Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.striker0)
 
-    private var puck: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.puck)
+    private lateinit var  puck: Bitmap
+    private var puck0: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.puck0)
+    private var puck1: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.puck1)
+    private var puck2: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.puck2)
+    private var puck3: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.puck3)
+
     private val goal: Bitmap =BitmapFactory.decodeResource(context.resources, R.drawable.goal)
     private var strikerX = 0
     private var strikerY = 0
@@ -40,7 +47,8 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
     private var ticks = 0
     private var puckX = 0
     private var puckY = 0
-    val finalScore = 1
+    private val finalScore = 1
+    private  var enPlaying = true
 
     private fun setupRes() {
         when(currField){
@@ -50,23 +58,38 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
             3->backgroundPaint.color = Color.WHITE
             else ->backgroundPaint.color = Color.BLUE
         }
+        striker = when(currStriker){
+            0-> striker0
+            1-> striker1
+            2-> striker2
+            3-> striker3
+            else -> striker0
+        }
+        puck = when(currPuck){
+            0-> puck0
+            1-> puck1
+            2-> puck2
+            3-> puck3
+            else -> puck0
+        }
         backgroundPaint.style = Paint.Style.FILL
         if(backgroundPaint.color!= Color.RED) scored.color = Color.RED
-        else scored.color = Color.BLUE
+            else scored.color = Color.BLUE
         scored.textSize = 40f
         if(backgroundPaint.color!= Color.RED) goalPaint.color = Color.RED
-        else goalPaint.color = Color.BLUE
+            else goalPaint.color = Color.BLUE
         goalPaint.style = Paint.Style.FILL
         goalPaint.textSize = 60f
-        outlinePaint.color=Color.RED
+        if(backgroundPaint.color!= Color.RED) outlinePaint.color=Color.RED
+            else outlinePaint.color=Color.BLUE
         outlinePaint.style=Paint.Style.STROKE
-        if (currStriker==0) {
-            striker = striker0
-        }
-        if (currStriker==1) {
-            striker = striker1
-        }
-        else striker = striker0
+//        if (currStriker==0) {
+//            striker = striker0
+//        }
+//        if (currStriker==1) {
+//            striker = striker1
+//        }
+//        else striker = striker0
         striker = striker.scale(200, 200)
         puck = puck.scale(100, 100)
         enemyStriker = enemyStriker.scale(200,200)
@@ -96,7 +119,9 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
     private fun endGame() {
 //        stop()
         GlobalScope.launch(Dispatchers.Main) {
-            findNavController().navigate(R.id.action_gameFragment_to_gameOverFragment)
+            val action = GameFragmentDirections.actionGameFragmentToGameOverFragment()
+            action.score = score
+            findNavController().navigate(action)
         }
     }
 
@@ -169,22 +194,22 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
                     canvas.rotate(270f)
                     enemyChasing = puckY+enemyStriker.height/2<canvas.height/2
                     //Move enemy
-                    if (enemyChasing) {
-                        if (delay>0){
-                            enemyX+=(canvas.width/2-enemyStriker.width/2-enemyX)/speed
-                            enemyY+=(50-enemyY)/speed
-                            delay--
+                    if (enPlaying) {
+                        if (enemyChasing) {
+                            if (delay > 0) {
+                                enemyX += (canvas.width / 2 - enemyStriker.width / 2 - enemyX) / speed
+                                enemyY += (50 - enemyY) / speed
+                                delay--
+                            } else {
+                                if (enemyX + puck.width / 2 < puckX) enemyX += abs(vecX)
+                                if (enemyX + puck.width / 2 > puckX) enemyX -= abs(vecX)
+                                if (enemyY + puck.height / 2 < puckY) enemyY += abs(vecY)
+                                if (enemyY + puck.height / 2 > puckY) enemyY -= abs(vecY)
+                            }
+                        } else {
+                            enemyX += (canvas.width / 2 - enemyStriker.width / 2 - enemyX) / speed
+                            enemyY += (50 - enemyY) / speed
                         }
-                        else {
-                            if (enemyX + puck.width / 2 < puckX) enemyX += abs(vecX)
-                            if (enemyX + puck.width / 2 > puckX) enemyX -= abs(vecX)
-                            if (enemyY + puck.height / 2 < puckY) enemyY += abs(vecY)
-                            if (enemyY + puck.height / 2 > puckY) enemyY -= abs(vecY)
-                        }
-                    }
-                    else{
-                        enemyX+=(canvas.width/2-enemyStriker.width/2-enemyX)/speed
-                        enemyY+=(50-enemyY)/speed
                     }
 
                     //Draw goal message
@@ -284,6 +309,14 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
         running=true
         gameThread = Thread(this)
         gameThread.start()
+    }
+
+    fun stopEnemy() {
+        enPlaying=false
+    }
+
+    fun startEnemy() {
+        enPlaying=true
     }
 
 }

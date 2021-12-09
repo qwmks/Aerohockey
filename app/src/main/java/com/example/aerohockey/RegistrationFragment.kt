@@ -94,7 +94,7 @@ class RegistrationFragment : Fragment() {
                         .build()
                     mFirebaseAuth!!.currentUser?.updateProfile(profileUpdates)
                         ?.addOnCompleteListener(it) {
-                                if(task.isSuccessful()){
+                                if(task.isSuccessful){
                                     findNavController().navigate(R.id.action_registrationFragment_to_homeFragment)
                                 }else
                                     Toast.makeText(this.context,"Name update Failed, try again",Toast.LENGTH_LONG).show();
