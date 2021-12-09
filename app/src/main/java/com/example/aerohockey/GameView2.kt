@@ -187,8 +187,8 @@ class GameView2(context: Context, field: Int, puck: Int, striker: Int): SurfaceV
 
                     canvas.drawBitmap(striker, strikerX.toFloat(), strikerY.toFloat(), backgroundPaint)
                     canvas.drawBitmap(enemyStriker, enemyX.toFloat(), enemyY.toFloat(), backgroundPaint);
-                    canvas.drawText("The field is $currField", (canvas.width / 2).toFloat(), 150f, scored)
-                    canvas.drawText("The striker is $currStriker", (canvas.width / 2).toFloat(), 180f, scored)
+//                    canvas.drawText("The field is $currField", (canvas.width / 2).toFloat(), 150f, scored)
+//                    canvas.drawText("The striker is $currStriker", (canvas.width / 2).toFloat(), 180f, scored)
                     canvas.rotate(90f)
                     canvas.drawText(text, (canvas.width / 2).toFloat(), -10f, scored)
                     canvas.rotate(270f)

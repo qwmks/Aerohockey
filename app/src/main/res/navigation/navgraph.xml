@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_homeFragment_to_settingsActivity"
             app:destination="@id/settingsActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_creditsFragment"
+            app:destination="@id/creditsFragment" />
     </fragment>
     <fragment
         android:id="@+id/signinFragment"
@@ -62,4 +65,9 @@
         android:name="com.example.aerohockey.SettingsActivity"
         android:label="activity_settings"
         tools:layout="@layout/activity_settings" />
+    <fragment
+        android:id="@+id/creditsFragment"
+        android:name="com.example.aerohockey.CreditsFragment"
+        android:label="fragment_credits"
+        tools:layout="@layout/fragment_credits" />
 </navigation>

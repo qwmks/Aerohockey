@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,6 +29,7 @@ class GameOverFragment : Fragment() {
     private var param2: String? = null
     lateinit var goToHome: Button
     lateinit var scoreView: TextView
+    lateinit var loadingCircleGO: CircularProgressIndicator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -41,6 +43,8 @@ class GameOverFragment : Fragment() {
         val args: GameOverFragmentArgs by navArgs()
         goToHome = view.findViewById(R.id.goToHome)
         scoreView = view.findViewById(R.id.scoreView)
+        loadingCircleGO = view.findViewById(R.id.loadingCircleGO)
+        loadingCircleGO.visibility=View.VISIBLE
         scoreView.text= args.score.toString()
         goToHome.visibility=View.GONE
         DBHelper.addMoney(email,args.score*100,::delay)
@@ -50,6 +54,7 @@ class GameOverFragment : Fragment() {
     }
     private fun delay(res:Boolean){
         goToHome.visibility=View.VISIBLE
+        loadingCircleGO.visibility=View.GONE
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

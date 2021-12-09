@@ -41,7 +41,8 @@ class HomeFragment : Fragment() {
     lateinit var playBut: Button
     lateinit var addMoneyBut: Button
     lateinit var moneyTextView: TextView
-    lateinit var pucksTextView: TextView
+    lateinit var showCredits:Button
+//    lateinit var pucksTextView: TextView
     lateinit var loadingCircleHome :CircularProgressIndicator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +65,7 @@ class HomeFragment : Fragment() {
         signOut = view.findViewById(R.id.sign_out)!!
         playBut = view.findViewById(R.id.butPlay)
         loadingCircleHome=view.findViewById(R.id.loadingCircleHome)
+        addMoneyBut = view.findViewById(R.id.addMoneyButton)
         if (auth.currentUser ==null){
             findNavController().navigate(R.id.action_global_signinFragment)
         }
@@ -71,10 +73,16 @@ class HomeFragment : Fragment() {
         playBut.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_gameActivity)
         }
-
+        showCredits=view.findViewById(R.id.show_credits)
+        showCredits.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_creditsFragment)
+        }
         loadingCircleHome.visibility=View.VISIBLE
         playBut.visibility=View.GONE
         settingsBut.visibility=View.GONE
+        signOut.visibility=View.GONE
+        showCredits.visibility=View.GONE
+        addMoneyBut.visibility=View.GONE
         signOut.setOnClickListener {
             auth.signOut()
             googleSignInClient.signOut()
@@ -85,14 +93,14 @@ class HomeFragment : Fragment() {
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
 
 
-        pucksTextView = view.findViewById(R.id.Pucks)
+//        pucksTextView = view.findViewById(R.id.Pucks)
         var puckString:String = ""
         Settings.unlockedPucks.forEach{
             "$puckString $it"
         }
-        pucksTextView.text = Settings.unlockedFields.toString()
+//        pucksTextView.text = Settings.unlockedFields.toString()
 //        pucksTextView.text=Settings.field.toString()
-        addMoneyBut = view.findViewById(R.id.addMoneyButton)
+
         addMoneyBut.setOnClickListener {
             Log.d("Current money",Settings.money.value.toString())
             DBHelper.addMoney(auth.currentUser?.email, 100 ,::delay)
@@ -109,6 +117,9 @@ class HomeFragment : Fragment() {
     private fun waitTillLoad(result:Boolean){
         if (result){
             loadingCircleHome.visibility=View.GONE
+            signOut.visibility=View.VISIBLE
+            showCredits.visibility=View.VISIBLE
+            addMoneyBut.visibility=View.VISIBLE
             playBut.visibility=View.VISIBLE
             settingsBut.visibility=View.VISIBLE
         }

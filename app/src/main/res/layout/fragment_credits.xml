@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/credits"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreditsFragment"
+    app:layoutDescription="@xml/fragment_credits_scene">
+
+
+    <TextView
+        android:id="@+id/created_by"
+        android:layout_width="290dp"
+        android:layout_height="232dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="130dp"
+        android:text="@string/App_created_by"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Author: Kravets Maxim"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="#D3D3D3"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_editor_absoluteY="800dp" />
+
+    <TextView
+        android:id="@+id/moderated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#D3D3D3"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="175dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Moderated  by"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_editor_absoluteY="800dp" />
+    <TextView
+        android:id="@+id/prepods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#D3D3D3"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Yulia Ponomarchuk&amp;Ivan Kusnetsov"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_editor_absoluteY="800dp" />
+    <TextView
+        android:id="@+id/special_thanks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#D3D3D3"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="225dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Special thanks to"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_editor_absoluteY="800dp" />
+    <TextView
+        android:id="@+id/thankees"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#D3D3D3"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="250dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Vyalkov Igor and Kochetckova Nastya"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_editor_absoluteY="800dp" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>
